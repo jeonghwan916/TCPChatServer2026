@@ -69,6 +69,8 @@ public class ChatServer
                 // 클라이언트의 연결 요청할 때 까지 대기
                 var client = await _listener!.AcceptTcpClientAsync();
                 
+                // TODO: 접속한 클라이언트 저장
+                
                 // 연결된 클라정보 출력
                 var endPoint = client.Client.RemoteEndPoint;
                 Console.WriteLine($"[연결] 클라이언트가 접속했습니다.: {endPoint}");
