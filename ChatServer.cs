@@ -24,6 +24,7 @@ public class ChatServer
     {
         _port = port;
         _isRunning = false;
+        _connectedClients = new ConcurrentDictionary<string, ConnectedClient>();
     }
     
     // 서버 시작
@@ -75,10 +76,13 @@ public class ChatServer
                 
                 // 접속한 클라이언트 저장
                 var connectedClient = new ConnectedClient(client);
+                // 클라이언트 목록에 추가
+                // _connectedClients.TryAdd(connectedClient.ClientId, connectedClient);
+                // Indexer 방식
+                _connectedClients[connectedClient.ClientId] = connectedClient;
                 
-                // 연결된 클라정보 출력
-                // var endPoint = client.Client.RemoteEndPoint;
-                // Console.WriteLine($"[연결] 클라이언트가 접속했습니다.: {endPoint}");
+                // 접속한 클라이언트 수 출력
+                Console.WriteLine($"[정보] 현재 접속한 클라이언트 수 : {_connectedClients.Count}");
             }
             catch (Exception e)
             {
