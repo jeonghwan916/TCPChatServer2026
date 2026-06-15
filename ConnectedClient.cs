@@ -41,6 +41,36 @@ public class ConnectedClient : IDisposable
         Console.WriteLine($"[연결] 클라이언트가 접속했습니다.: {_clientId}");
     }
     
+    // 메시지 수신 로직
+    public async Task ReceiveMessageAsync()
+    {
+        try
+        {
+            while (!_isDisposed && IsConnected)
+            {
+                // 한줄씩 읽기 (비동기)
+                string? message = await _reader.ReadLineAsync();
+
+                // 연결이 끊어지면 null 반환
+                if (message == null)
+                {
+                    Console.WriteLine($"[연결종료] {_clientId}");
+                    break;
+                }
+                
+                Console.WriteLine($"[수신] {_clientId} : {message}");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+        finally
+        {
+            Dispose();
+        }
+    }
+    
     public void Dispose()
     {
         if (_isDisposed) return;
