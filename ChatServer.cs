@@ -115,6 +115,7 @@ public class ChatServer
             if (client.IsConnected)
             {
                 // 전송 메시지 호출
+                await client.SendMessageAsync(message);
             }
         }
     }

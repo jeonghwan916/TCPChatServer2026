@@ -80,7 +80,7 @@ public class ConnectedClient : IDisposable
     // 메시지 송신
     public async Task SendMessageAsync(string message)
     {
-        if (!_isDisposed || !IsConnected) return;
+        if (_isDisposed || !IsConnected) return;
         await _writer.WriteLineAsync(message);
     }
     
