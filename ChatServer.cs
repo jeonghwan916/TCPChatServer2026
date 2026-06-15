@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 
@@ -14,6 +15,9 @@ public class ChatServer
     
     // 서버 포트
     private int _port;
+    
+    // 연결된 클라이언트를 저장할 스레드 환경에서 사용하는 딕셔너리(Thread-Safe Dictionary)
+    private readonly ConcurrentDictionary<string, ConnectedClient> _connectedClients;
     
     // 생성자 (Constructor)
     public ChatServer(int port)
@@ -69,7 +73,8 @@ public class ChatServer
                 // 클라이언트의 연결 요청할 때 까지 대기
                 var client = await _listener!.AcceptTcpClientAsync();
                 
-                // TODO: 접속한 클라이언트 저장
+                // 접속한 클라이언트 저장
+                var connectedClient = new ConnectedClient(client);
                 
                 // 연결된 클라정보 출력
                 // var endPoint = client.Client.RemoteEndPoint;
